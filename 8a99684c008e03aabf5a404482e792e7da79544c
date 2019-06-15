@@ -1,0 +1,1 @@
+{"jobID":"ea24fb96-ff25-3405-8647-ca849d78a6c8","spec":{"type":"policy","cause":{"Message":"","User":"sadhana aws7 \u003csadhana.aws7@gmail.com\u003e"},"spec":{"default:deployment/wgit-deploy":{"add":{"automated":"true"},"remove":null}}},"result":null}
