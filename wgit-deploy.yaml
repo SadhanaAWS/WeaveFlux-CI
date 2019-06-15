@@ -65,7 +65,7 @@ spec:
         tier: frontend
     spec:
       containers:
-      - image: sadhanadockerhub0514/weaveflux:10
+      - image: sadhanadockerhub0514/weaveflux:25
         name: wordpress
         env:
         - name: WORDPRESS_DB_HOST

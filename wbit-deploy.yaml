@@ -66,7 +66,7 @@ spec:
         flux.weave.works/tag.k8s-mon: "glob:master-*"
     spec:
       containers:
-      - image: sadhanadockerhub0514/weaveflux:21
+      - image: sadhanadockerhub0514/weaveflux:25
         name: wordpress
         env:
         - name: WORDPRESS_DB_HOST
