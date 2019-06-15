@@ -1,0 +1,89 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: wgit-ext-svc
+spec:
+  type: ExternalName
+  externalName: joe-db.cfgr3xj38ihj.eu-central-1.rds.amazonaws.com
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: wgit-secret
+type: Opaque
+data:
+  username: ZGJ1c2Vy
+  password: ZGJwYXNzd29yZA==
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: wgit-pvc
+  labels:
+    app: wgit-label
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wgit-svc
+  labels:
+    app: wgit-label
+spec:
+  ports:
+    - port: 80
+  selector:
+    app: wgit-label
+    tier: frontend
+  type: LoadBalancer
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: wgit-deploy
+  labels:
+    app: wgit-label
+spec:
+  selector:
+    matchLabels:
+      app: wgit-label
+      tier: frontend
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: wgit-label
+        tier: frontend
+    spec:
+      containers:
+      - image: sadhanadockerhub0514/weaveflux:5
+        name: wordpress
+        env:
+        - name: WORDPRESS_DB_HOST
+          value: wgit-ext-svc
+        - name: WORDPRESS_DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: wgit-secret
+              key: username
+        - name: WORDPRESS_DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: wgit-secret
+              key: password
+        ports:
+        - containerPort: 80
+          name: wordpress
+        volumeMounts:
+        - name: wordpress-persistent-storage
+          mountPath: /var/www/html
+      volumes:
+      - name: wordpress-persistent-storage
+        persistentVolumeClaim:
+          claimName: wgit-pvc
