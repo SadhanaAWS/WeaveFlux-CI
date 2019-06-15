@@ -1,3 +1,4 @@
+---
 kind: Service
 apiVersion: v1
 metadata:
@@ -23,7 +24,7 @@ metadata:
     app: wgit-label
 spec:
   accessModes:
-    - ReadWriteOnce
+  - ReadWriteOnce
   resources:
     requests:
       storage: 5Gi
@@ -36,7 +37,7 @@ metadata:
     app: wgit-label
 spec:
   ports:
-    - port: 80
+  - port: 80
   selector:
     app: wgit-label
     tier: frontend
@@ -48,6 +49,8 @@ metadata:
   name: wgit-deploy
   labels:
     app: wgit-label
+  annotations:
+    flux.weave.works/automated: 'true'
 spec:
   selector:
     matchLabels:
