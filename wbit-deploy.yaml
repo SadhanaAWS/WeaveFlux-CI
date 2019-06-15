@@ -61,6 +61,9 @@ spec:
       labels:
         app: wb-label
         tier: frontend
+      annotations:
+        flux.weave.works/automated: "true"
+        flux.weave.works/tag.k8s-mon: "glob:master-*"
     spec:
       containers:
       - image: sadhanadockerhub0514/weaveflux:21
